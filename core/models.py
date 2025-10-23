@@ -12,8 +12,9 @@ class Kit(models.Model):
     name = models.CharField(max_length=120)
     current_location = models.CharField(max_length=100, blank=True, default="")
     destination_location = models.CharField(max_length=100, blank=True, default="")
+    issues = models.TextField(blank=True, null=True)
     needs_restock = models.BooleanField(default=False)
-    status = models.CharField()
+    status = models.CharField(max_length=20, choices=Status, default='in_use')
 
     def __str__(self):
         return self.name
