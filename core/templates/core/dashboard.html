@@ -12,7 +12,12 @@
       <div>
         {% if user.is_authenticated %}
           <span class="mr-2">Welcome, {{ user.username }}</span>
-          <a href="/accounts/logout/" class="text-red-600 hover:underline">Logout</a>
+            <form action="{% url 'logout' %}" method="post" class="inline">
+              {% csrf_token %}
+              <button type="submit" class="text-red-600 hover:underline bg-transparent border-none cursor-pointer">
+                Logout
+              </button>
+            </form>
         {% else %}
           <a href="/accounts/login/" class="text-blue-600 hover:underline">Login</a>
         {% endif %}
