@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Welcome to Field Ops Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex flex-col items-center justify-center h-screen">
+  <div class="bg-white shadow-md rounded-lg p-8 w-96 text-center">
+    <h1 class="text-3xl font-bold mb-4">Field Ops Dashboard</h1>
+    <p class="text-gray-600 mb-6">
+      Manage your broadcast kits, post-mortems, and field issues all in one place.
+    </p>
+    {% if user.is_authenticated %}
+      <a href="{% url 'dashboard' %}" class="block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Go to Dashboard</a>
+      <a href="/accounts/logout/" class="block mt-3 text-red-600 hover:underline">Logout</a>
+    {% else %}
+      <a href="/accounts/login/" class="block bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Login</a>
+    {% endif %}
+  </div>
+</body>
+</html>
