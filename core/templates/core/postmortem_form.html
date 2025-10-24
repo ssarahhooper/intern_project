@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Submit Post-Mortem</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-10">
+  <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-lg">
+    <h1 class="text-2xl font-bold mb-6 text-center">Submit Post-Mortem</h1>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      <!-- Kit -->
+      <div>
+        <label for="id_kit" class="block text-gray-700 font-semibold mb-1">Kit</label>
+        {{ form.kit }}
+      </div>
+
+      <!-- Event Name -->
+      <div>
+        <label for="id_event_name" class="block text-gray-700 font-semibold mb-1">Event Name</label>
+        {{ form.event_name }}
+      </div>
+
+      <!-- Event Date -->
+      <div>
+        <label for="id_event_date" class="block text-gray-700 font-semibold mb-1">Event Date</label>
+        {{ form.event_date }}
+      </div>
+
+      <!-- Summary -->
+      <div>
+        <label for="id_summary" class="block text-gray-700 font-semibold mb-1">Summary</label>
+        {{ form.summary }}
+      </div>
+
+      <!-- Issues -->
+      <div>
+        <label for="id_issues" class="block text-gray-700 font-semibold mb-1">Issues</label>
+        {{ form.issues }}
+      </div>
+
+      <!-- Restock -->
+      <div>
+        <label for="id_restock" class="block text-gray-700 font-semibold mb-1">Restock Details</label>
+        {{ form.restock }}
+      </div>
+
+      <!-- Submit / Cancel buttons -->
+      <div class="flex justify-between items-center mt-6">
+        <button type="submit"
+                class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+          Submit
+        </button>
+        <a href="{% url 'dashboard' %}" class="text-gray-600 hover:underline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+

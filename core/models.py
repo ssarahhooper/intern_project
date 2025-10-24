@@ -24,8 +24,10 @@ class PostMortem(models.Model):
     kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
     event_name = models.CharField(max_length=120)
     event_date = models.DateField()
-    raw_text = models.TextField()
     summary = models.TextField()
+    issues = models.TextField(blank=True, null=True)
+    restock = models.TextField(blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

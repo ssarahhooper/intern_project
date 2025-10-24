@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .models import Kit
-from .forms import KitForm
+from .forms import KitForm, PostMortForm
 
 
 def home(request):
@@ -20,11 +20,26 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+
 # Create your views here.
 @login_required
 def dashboard(request):
     kits = Kit.objects.all().order_by('name')
     return render(request, 'core/dashboard.html', {'kits': kits})
+
+
+@login_required
+def create_postmortem(request):
+    if request.method == 'POST':
+        form = PostMortForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = PostMortForm()
+    return render(request, 'core/postmortem_form.html', {'form': form})
+
 
 @login_required
 def update_kit(request, pk):
