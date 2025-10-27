@@ -34,7 +34,13 @@ def create_postmortem(request):
     if request.method == 'POST':
         form = PostMortForm(request.POST)
         if form.is_valid():
-            form.save()
+            postmortem = form.save()
+            #update linked kit
+            kit = postmortem.kit
+            kit.issues = postmortem.issues
+            kit.needs_restock = bool(postmortem.restock)
+            kit.save()
+
             return redirect('dashboard')
     else:
         form = PostMortForm()

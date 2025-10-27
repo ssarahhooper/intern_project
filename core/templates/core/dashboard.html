@@ -1,14 +1,13 @@
 
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">>
+<html lang="en">
 <head>
     <title>Broadcast Kit Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
     <body class="bg-gray-50 p-6">
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold">Broadcast Kit Dashboard</h1>
       <div>
         {% if user.is_authenticated %}
           <span class="mr-2">Welcome, {{ user.username }}</span>
@@ -26,7 +25,6 @@
 
     <h1 class="text-3xl font-bold mb-6">Broadcast Kit Dashboard</h1>
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold">Broadcast Kit Dashboard</h1>
       <div class="space-x-3">
         <a href="{% url 'create_postmortem' %}"
            class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
@@ -49,7 +47,6 @@
         {% for kit in kits %}
         <div class="bg-white p-4 rounded-xl shadow-md">
             <h2 class="text-xl font-semibold">{{ kit.name }}</h2>
-            <p><strong>Serial:</strong> {{ kit.serial_number }}</p>
             <p><strong>Status:</strong> {{ kit.get_status_display }}</p>
             <p><strong>Location:</strong> {{ kit.current_location }}</p>
             <p><strong>Destination:</strong> {{ kit.destination }}</p>
