@@ -12,10 +12,11 @@ class KitForm(forms.ModelForm):
 class PostMortForm(forms.ModelForm):
     class Meta:
         model = PostMortem
-        fields = ['kit', 'event_name', 'event_date', 'summary', 'issues', 'restock']
+        fields = ['kit', 'name', 'event_name', 'event_date', 'summary', 'issues', 'restock']
         KITS = [(f'Kit {i}', f'Kit {i}') for i in range(1, 11)]
         widgets = {
             'kit': forms.Select(choices=KITS, attrs={'class': 'w-full border rounded-md p-2'}),
+            'name': forms.TextInput(attrs={'class': 'w-full border rounded-md p-2'}),
             'event_name': forms.TextInput(attrs={'class': 'w-full border rounded-md p-2'}),
             'event_date': forms.DateInput(attrs={'class': 'w-full border rounded-md p-2', 'type': 'date'}),
             'summary': forms.Textarea(attrs={'class': 'w-full border rounded-md p-2', 'rows': 3}),

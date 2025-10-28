@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -25,8 +25,15 @@ def signup(request):
 # Create your views here.
 @login_required
 def dashboard(request):
-    kits = Kit.objects.all().order_by('name')
-    return render(request, 'core/dashboard.html', {'kits': kits})
+    sort_option = request.GET.get('sort', 'name')  # default sort
+    if sort_option == 'latest':
+        kits = Kit.objects.all().order_by('-updated_at')  # ✅ sort by last update
+    elif sort_option == 'number':
+        kits = Kit.objects.all().order_by('name')
+    else:
+        kits = Kit.objects.all()
+
+    return render(request, 'core/dashboard.html', {'kits': kits, 'sort_option': sort_option})
 
 
 @login_required
@@ -35,7 +42,7 @@ def create_postmortem(request):
         form = PostMortForm(request.POST)
         if form.is_valid():
             postmortem = form.save()
-            #update linked kit
+            # update linked kit
             kit = postmortem.kit
             kit.issues = postmortem.issues
             kit.needs_restock = bool(postmortem.restock)
@@ -58,3 +65,14 @@ def update_kit(request, pk):
     else:
         form = KitForm(instance=kit)
     return render(request, 'core/update_kit.html', {'form': form, 'kit': kit})
+
+
+def view_kit(request, kit_id):
+    kit = get_object_or_404(Kit, id=kit_id)
+    postmortems = kit.postmortem_set.all().order_by('-event_date')
+    latest_pm = postmortems.first()
+    return render(request, 'core/view_kit.html', {
+        'kit': kit,
+        'postmortems': postmortems,
+        'latest_pm': latest_pm
+    })

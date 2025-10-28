@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ kit.name }} Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Kit Details: {{ kit.name }}</h1>
+    <a href="{% url 'dashboard' %}" class="text-blue-600 hover:underline">← Back to Dashboard</a>
+  </div>
+
+  <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+    <p><strong>Status:</strong> {{ kit.get_status_display }}</p>
+    <p><strong>Location:</strong> {{ kit.current_location|default:"Not specified" }}</p>
+    <p><strong>Destination:</strong> {{ kit.destination|default:"Not specified" }}</p>
+
+    {% if kit.issues %}
+        <p><strong>Issues:</strong> {{ kit.issues }}</p>
+    {% else %}
+      <p class="text-green-600 font-semibold mt-2"> No issues reported</p>
+    {% endif %}
+
+    {% if kit.needs_restock %}
+      <p><strong>Needs Restock:</strong>
+        {% if latest_pm and latest_pm.restock %}
+          {{ latest_pm.restock }}
+        {% else %}
+          No items listed in the latest report.
+        {% endif %}
+      </p>
+    {% else %}
+      <p class="text-green-700 font-semibold mt-2">✔️ Fully stocked</p>
+    {% endif %}
+  </div>
+
+  <h2 class="text-2xl font-semibold mb-4">Post-Mortems for {{ kit.name }}</h2>
+  {% if postmortems %}
+    <div class="space-y-4">
+      {% for pm in postmortems %}
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h3 class="text-lg font-semibold">{{ pm.event_name }}</h3>
+          <p class="text-sm text-gray-600">{{ pm.event_date }}</p>
+          <p class="mt-2">{{ pm.summary }}</p>
+
+          {% if pm.issues %}
+            <p class="text-red-600 mt-2"><strong>Issues:</strong> {{ pm.issues }}</p>
+          {% endif %}
+          {% if pm.restock %}
+            <p class="text-yellow-700 mt-2"><strong>Restock:</strong> {{ pm.restock }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-gray-500 italic">No post-mortems have been logged for this kit yet.</p>
+  {% endif %}
+</body>
+</html>

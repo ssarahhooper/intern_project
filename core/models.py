@@ -15,6 +15,7 @@ class Kit(models.Model):
     issues = models.TextField(blank=True, null=True)
     needs_restock = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=Status, default='in_use')
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -22,6 +23,7 @@ class Kit(models.Model):
 
 class PostMortem(models.Model):
     kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
+    name = models.CharField(max_length=120, blank=True, null=True)
     event_name = models.CharField(max_length=120)
     event_date = models.DateField()
     summary = models.TextField()
