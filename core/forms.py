@@ -21,5 +21,5 @@ class PostMortForm(forms.ModelForm):
             'event_date': forms.DateInput(attrs={'class': 'w-full border rounded-md p-2', 'type': 'date'}),
             'summary': forms.Textarea(attrs={'class': 'w-full border rounded-md p-2', 'rows': 3}),
             'issues': forms.Textarea(attrs={'class': 'w-full border rounded-md p-2', 'rows': 3}),
-            'restock': forms.Textarea(attrs={'class': 'w-full border rounded-md p-2', 'rows': 2, 'placeholder': 'List restock items if any...'}),
+            'restock': forms.Textarea(attrs={'class': 'w-full border rounded-md p-2', 'rows': 2, 'placeholder': 'List restock items if any, leave blank if none...'}),
         }
