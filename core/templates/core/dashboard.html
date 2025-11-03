@@ -2,9 +2,22 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-  Broadcast Kit Dashboard
-</h1>
+
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+      Broadcast Kit Dashboard
+    </h1>
+
+    <form method="get">
+        <label for="sort" class="text-gray-700 dark:text-gray-300 mr-2">Sort by:</label>
+        <select name="sort" id="sort"
+                class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-2 py-1 rounded-md"
+                onchange="this.form.submit()">
+          <option value="number" {% if sort_option == 'number' %}selected{% endif %}>Kit Number </option>
+          <option value="latest" {% if sort_option == 'latest' %}selected{% endif %}>Latest Update</option>
+        </select>
+    </form>
+</div>
 
 <!-- Add a subtle dark mode background for the grid area -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
