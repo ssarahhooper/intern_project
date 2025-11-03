@@ -1,76 +1,70 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ kit.name }} Details</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 p-6">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold">Kit Details: {{ kit.name }}</h1>
-    <a href="{% url 'dashboard' %}" class="text-blue-600 hover:underline">← Back to Dashboard</a>
-  </div>
+{% extends 'core/base.html' %}
+{% block title %}{{ kit.name }} Details{% endblock %}
 
-  <div class="bg-white p-6 rounded-xl shadow-md mb-6">
-    <p><strong>Status:</strong> {{ kit.get_status_display }}</p>
-    <p><strong>Location:</strong> {{ kit.current_location|default:"Not specified" }}</p>
-    <p><strong>Destination:</strong> {{ kit.destination|default:"Not specified" }}</p>
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-3xl font-bold text-gray-100">Kit Details: {{ kit.name }}</h1>
+  <a href="{% url 'dashboard' %}" class="text-blue-400 hover:underline">← Back to Dashboard</a>
+</div>
 
-    {% if kit.issues %}
-        <p><strong>Issues:</strong> {{ kit.issues }}</p>
-    {% else %}
-      <p class="text-green-600 font-semibold mt-2"> No issues reported</p>
-    {% endif %}
+<div class="bg-gray-800 p-6 rounded-xl shadow-md mb-6 text-gray-100">
+  <p><strong>Status:</strong> {{ kit.get_status_display }}</p>
+  <p><strong>Location:</strong> {{ kit.current_location|default:"Not specified" }}</p>
+  <p><strong>Destination:</strong> {{ kit.destination_location|default:"Not specified" }}</p>
 
-    <form action="{% url 'save_restock_status' kit.id %}" method="post" class="mt-4">
-      {% csrf_token %}
-      <div class="flex items-center gap-3">
-        <input
-          type="checkbox"
-          name="needs_restock"
-          id="needs_restock"
-          class="w-5 h-5 accent-green-600 cursor-pointer"
-          {% if not kit.needs_restock %}checked{% endif %}
-        >
+  {% if kit.issues %}
+    <p class="mt-2"><strong>Issues:</strong> <span class="text-red-400">{{ kit.issues }}</span></p>
+  {% else %}
+    <p class="text-green-400 font-semibold mt-2">No issues reported</p>
+  {% endif %}
 
-        {% if kit.needs_restock %}
-          <label for="needs_restock" class="font-medium text-red-600">Needs restock</label>
+  <form action="{% url 'save_restock_status' kit.id %}" method="post" class="mt-4">
+    {% csrf_token %}
+    <div class="flex items-center gap-3">
+      <input
+        type="checkbox"
+        name="needs_restock"
+        id="needs_restock"
+        class="w-5 h-5 accent-green-500 cursor-pointer"
+        {% if not kit.needs_restock %}checked{% endif %}
+      >
+
+      {% if kit.needs_restock %}
+        <label for="needs_restock" class="font-medium text-red-400">Needs restock</label>
+      {% else %}
+        <label for="needs_restock" class="font-medium text-green-400">Fully stocked</label>
+      {% endif %}
+    </div>
+
+    <button type="submit"
+            class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-1 rounded-md shadow-sm transition">
+      Save
+    </button>
+  </form>
+</div>
+
+<h2 class="text-2xl font-semibold mb-4 text-gray-100">Post-Mortems for {{ kit.name }}</h2>
+
+{% if postmortems %}
+  <div class="space-y-4">
+    {% for pm in postmortems %}
+      <div class="bg-gray-800 p-4 rounded-lg shadow text-gray-100">
+        <h3 class="text-lg font-semibold">{{ pm.event_name }}</h3>
+        <p class="text-sm text-gray-400">{{ pm.event_date }}</p>
+        <p class="mt-2">{{ pm.summary }}</p>
+
+        {% if pm.issues %}
+          <p class="text-red-400 mt-2"><strong>Issues:</strong> {{ pm.issues }}</p>
         {% else %}
-          <label for="needs_restock" class="font-medium text-green-700">Fully stocked</label>
+          <p class="text-green-400 font-semibold mt-2">No issues reported</p>
+        {% endif %}
+        {% if pm.restock %}
+          <p class="text-yellow-400 mt-2"><strong>Restock:</strong> {{ pm.restock }}</p>
         {% endif %}
       </div>
-
-      <button type="submit"
-              class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium px-2 py-1 rounded-md shadow-sm transition">
-        Save
-      </button>
-    </form>
-
+    {% endfor %}
   </div>
-
-  <h2 class="text-2xl font-semibold mb-4">Post-Mortems for {{ kit.name }}</h2>
-  {% if postmortems %}
-    <div class="space-y-4">
-      {% for pm in postmortems %}
-        <div class="bg-white p-4 rounded-lg shadow">
-          <h3 class="text-lg font-semibold">{{ pm.event_name }}</h3>
-          <p class="text-sm text-gray-600">{{ pm.event_date }}</p>
-          <p class="mt-2">{{ pm.summary }}</p>
-
-          {% if pm.issues %}
-            <p class="text-red-600 mt-2"><strong>Issues:</strong> {{ pm.issues }}</p>
-          {% else %}
-              <p class="text-green-600 font-semibold mt-2">No issues reported</p>
-          {% endif %}
-          {% if pm.restock %}
-            <p class="text-yellow-700 mt-2"><strong>Restock:</strong> {{ pm.restock }}</p>
-          {% endif %}
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p class="text-gray-500 italic">No post-mortems have been logged for this kit yet.</p>
-  {% endif %}
-</body>
-</html>
+{% else %}
+  <p class="text-gray-400 italic">No post-mortems have been logged for this kit yet.</p>
+{% endif %}
+{% endblock %}

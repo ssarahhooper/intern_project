@@ -90,6 +90,7 @@ def index(request):
 def toggle_theme(request):
     current = request.session.get('theme', 'light')
     request.session['theme'] = 'dark' if current == 'light' else 'light'
+    request.session.modified = True
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
