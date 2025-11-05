@@ -1,5 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
+<link rel="stylesheet" href="/static/styles.css">
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -16,17 +17,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="{% if theme == 'dark' %}dark{% endif %}
-             bg-gray-100 text-gray-900
-             dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-800
-             dark:text-gray-100
-             transition-colors duration-300 min-h-screen flex flex-col">
+<body style="background-color: black">
 
 
   <!-- 🧭 Navigation bar -->
-  <nav class="bg-gray-800 text-white p-4 flex justify-between items-center">
+  <nav class="bg-neutral-800 text-white p-4 flex justify-between items-center">
     <div>
-      <a href="{% url 'dashboard' %}" class="font-bold text-lg hover:text-gray-300">Dashboard</a>
+      <a href="{% url 'dashboard' %}" class="font-family: Stolzl text-lg hover:text-gray-300">Dashboard</a>
       <a href="{% url 'create_postmortem' %}"
            class="ml-4 px-3 py-1 border border-gray-300 text-gray-200 hover:bg-gray-700 rounded-md transition">
           New Post-Mortem +
@@ -34,18 +31,6 @@
     </div>
 
     <div class="flex items-center gap-4">
-      <!-- 🌗 Dark Mode Toggle -->
-      <form action="{% url 'toggle_theme' %}" method="post">
-        {% csrf_token %}
-        <button type="submit"
-                class="px-3 py-1 border border-gray-400 rounded-md bg-gray-700 hover:bg-gray-600 text-sm">
-          {% if theme == 'dark' %}
-            ☀️ Light Mode
-          {% else %}
-            🌙 Dark Mode
-          {% endif %}
-        </button>
-      </form>
 
       <!-- 👤 Auth Section -->
       {% if user.is_authenticated %}
@@ -53,7 +38,7 @@
         <form action="{% url 'logout' %}" method="post" class="inline">
           {% csrf_token %}
           <button type="submit"
-                  class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">
+                  class="font-family: Stolzl bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">
             Logout
           </button>
         </form>
@@ -69,7 +54,7 @@
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="bg-gray-800 text-gray-300 text-center py-3 mt-auto">
+  <footer class="bg-black font-family: Stolzl text-gray-300 text-center py-3 mt-auto">
     <p class="text-sm">&copy; 2025 Broadcast Kit Tracker</p>
   </footer>
 

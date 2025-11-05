@@ -7,13 +7,12 @@
   <a href="{% url 'dashboard' %}" class="text-blue-400 hover:underline">← Back to Dashboard</a>
 </div>
 
-<div class="bg-gray-800 p-6 rounded-xl shadow-md mb-6 text-gray-100">
-  <p><strong>Status:</strong> {{ kit.get_status_display }}</p>
+<div class="bg-neutral-800 p-6 rounded-xl shadow-md mb-6 text-gray-100">
   <p><strong>Location:</strong> {{ kit.current_location|default:"Not specified" }}</p>
   <p><strong>Destination:</strong> {{ kit.destination_location|default:"Not specified" }}</p>
 
   {% if kit.issues %}
-    <p class="mt-2"><strong>Issues:</strong> <span class="text-red-400">{{ kit.issues }}</span></p>
+    <p class="text-red-400 mt-2"><strong>Issues:</strong> <span class="text-red-400">{{ kit.issues }}</span></p>
   {% else %}
     <p class="text-green-400 font-semibold mt-2">No issues reported</p>
   {% endif %}

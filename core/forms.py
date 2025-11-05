@@ -6,7 +6,7 @@ from .models import PostMortem
 class KitForm(forms.ModelForm):
     class Meta:
         model = Kit
-        fields = ['name', 'current_location', 'destination_location', 'status', 'issues', 'needs_restock']
+        fields = ['name', 'current_location', 'destination_location', 'issues', 'needs_restock']
 
 
 class PostMortForm(forms.ModelForm):
@@ -20,6 +20,6 @@ class PostMortForm(forms.ModelForm):
             'event_name': forms.TextInput(attrs={'class': 'w-full border rounded-md p-2'}),
             'event_date': forms.DateInput(attrs={'class': 'w-full border rounded-md p-2', 'type': 'date'}),
             'summary': forms.Textarea(attrs={'class': 'w-full border rounded-md p-2', 'rows': 3}),
-            'issues': forms.Textarea(attrs={'class': 'w-full border rounded-md p-2', 'rows': 3}),
+            'issues': forms.Textarea(attrs={'class': 'w-full border rounded-md p-2', 'rows': 3, 'placeholder': 'Enter issues, leave blank if none... '}),
             'restock': forms.Textarea(attrs={'class': 'w-full border rounded-md p-2', 'rows': 2, 'placeholder': 'List restock items if any, leave blank if none...'}),
         }

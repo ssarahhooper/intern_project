@@ -1,19 +1,38 @@
-
 {% extends 'core/base.html' %}
 {% block title %}Submit Post-Mortem{% endblock %}
 
 {% block content %}
-<h1 class="text-2xl font-bold mb-6 text-center">Submit Post-Mortem</h1>
+<h1 class="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
+  Submit Post-Mortem
+</h1>
 
-<form method="post" class="space-y-4">
-  {% csrf_token %}
-  {{ form.as_p }}
+<div class="max-w-md mx-auto bg-gray-900 dark:bg-gray-800 p-6 rounded-xl shadow text-gray-200">
+  <form method="post" class="space-y-4">
+    {% csrf_token %}
+    {{ form.as_p }}
 
-  <div class="flex justify-between items-center mt-6">
-    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-      Submit
-    </button>
-    <a href="{% url 'dashboard' %}" class="text-gray-600 hover:underline">Cancel</a>
-  </div>
-</form>
+    <script>
+      // Inline script to darken text inside input fields only
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('input, textarea, select').forEach(el => {
+          el.style.color = '#222';             // dark text inside boxes
+          el.style.backgroundColor = '#f8f8f8'; // light gray background
+          el.style.border = '1px solid #ccc';
+          el.style.borderRadius = '6px';
+          el.style.padding = '6px 8px';
+        });
+      });
+    </script>
+
+    <div class="flex justify-between items-center mt-6">
+      <button type="submit"
+              class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+        Submit
+      </button>
+      <a href="{% url 'dashboard' %}" class="text-gray-400 hover:underline">
+        Cancel
+      </a>
+    </div>
+  </form>
+</div>
 {% endblock %}
